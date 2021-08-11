@@ -1,0 +1,155 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-08-10 01:53+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != "
+"11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % "
+"100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
+"(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
+
+#: .\quiz\settings.py:106
+msgid "English"
+msgstr ""
+
+#: .\quiz\settings.py:107
+msgid "Ukrainian"
+msgstr ""
+
+#: .\templates\home.html:3 .\templates\navbar.html:11
+msgid "Tests"
+msgstr "Тести"
+
+#: .\templates\home.html:7
+msgid "Sorry, can not find any matches..."
+msgstr "Вибачте, не можу знайти жодного збігу ..."
+
+#: .\templates\home.html:8
+msgid "check the spelling and try again"
+msgstr "перевірте правопис і повторіть спробу"
+
+#: .\templates\home.html:20 .\templates\home.html:37
+#: .\templates\tests\detail.html:12
+msgid "Created"
+msgstr "Створено"
+
+#: .\templates\home.html:21 .\templates\home.html:38
+msgid "Start..."
+msgstr "Почати..."
+
+#: .\templates\home.html:22 .\templates\home.html:39
+msgid "History"
+msgstr "Історія"
+
+#: .\templates\navbar.html:14
+msgid "My scores"
+msgstr "Результати"
+
+#: .\templates\navbar.html:17
+msgid "Report"
+msgstr "Звіт"
+
+#: .\templates\navbar.html:24
+msgid "Log out"
+msgstr "Вийти"
+
+#: .\templates\navbar.html:28 .\templates\users\register.html:8
+#: .\templates\users\register.html:15
+msgid "Sign up"
+msgstr "Створити"
+
+#: .\templates\navbar.html:31 .\templates\users\login.html:8
+#: .\templates\users\login.html:13
+msgid "Sign in"
+msgstr "Увійти"
+
+#: .\templates\navbar.html:51
+msgid "Search test..."
+msgstr "Шукати тести..."
+
+#: .\templates\navbar.html:54
+msgid "Date ranges"
+msgstr "Інтервал створення"
+
+#: .\templates\navbar.html:58
+msgid "From"
+msgstr "Від"
+
+#: .\templates\navbar.html:63
+msgid "To"
+msgstr "До"
+
+#: .\templates\navbar.html:71
+msgid "ORDER BY"
+msgstr "Сортувати за"
+
+#: .\templates\navbar.html:76
+msgid "First new"
+msgstr "Спочатку нові"
+
+#: .\templates\navbar.html:80
+msgid "First old"
+msgstr "Спочатку старі"
+
+#: .\templates\navbar.html:84
+msgid "Search"
+msgstr "Пошук"
+
+#: .\templates\tests\detail.html:9
+msgid "Description"
+msgstr "Опис"
+
+#: .\templates\tests\detail.html:15
+msgid "START"
+msgstr "ПОЧАТИ"
+
+#: .\templates\tests\detail.html:21
+msgid "Question"
+msgstr "Питання"
+
+#: .\templates\tests\history.html:9 .\templates\tests\myscores.html:11
+msgid "Test"
+msgstr "Тести"
+
+#: .\templates\tests\history.html:10 .\templates\tests\myscores.html:12
+msgid "User"
+msgstr "Користувач"
+
+#: .\templates\tests\history.html:11 .\templates\tests\myscores.html:13
+msgid "Points"
+msgstr "Очки"
+
+#: .\templates\tests\history.html:12 .\templates\tests\myscores.html:14
+msgid "Finished at"
+msgstr "Закінчено о"
+
+#: .\templates\tests\myscores.html:4
+#, fuzzy
+#| msgid "My scores"
+msgid "Scores"
+msgstr "Результати"
+
+#: .\templates\users\login.html:11 .\templates\users\register.html:12
+msgid "Username"
+msgstr "Користувач"
+
+#: .\templates\users\login.html:12 .\templates\users\register.html:13
+msgid "Password"
+msgstr "Пароль"
+
+#: .\templates\users\register.html:14
+msgid "Confirm Password"
+msgstr "Підтвердити пароль"

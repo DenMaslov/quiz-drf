@@ -1,0 +1,25 @@
+{% extends '_base.html' %}
+{% load i18n %}
+{% block title %}{{test.title}}{% endblock title %}
+
+{% block content %}
+<div class="container">
+<h1 class="post__title">{{test.title}}</h1>
+<p class="lead">
+    {% translate "Description" %}: {{test.description}}
+</p>
+<p class="lead">
+    {% translate "Created" %}: {{test.created_at}}
+</p>
+<a href="{% url 'start' test.id %}" type="button" class="btn btn-dark glow" style="margin-bottom: 5vh;">
+    {% translate "START" %}
+</a>
+<hr/>
+<div>
+    {% for question in test.questions.all %}
+    <div class = "alert alert-primary" role="alert">
+        {% translate "Question" %} {{forloop.counter}}:  {{question.text}}
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}
