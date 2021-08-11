@@ -56,7 +56,6 @@ class TestSerializer(serializers.ModelSerializer):
 
         test = Test(
             title=validated_data['title'],
-            title_uk=validated_data['title_uk'],
             description=validated_data['description'],
             image_src=validated_data['image_src'],
         )

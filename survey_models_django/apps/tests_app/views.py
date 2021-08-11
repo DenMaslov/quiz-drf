@@ -29,7 +29,7 @@ class TestDetailView(generics.RetrieveAPIView):
         return get_object_or_404(Test, id=id)
 
     def put(self, request, pk, format=None):
-        test = Test.objects.get(id=pk)
+        test = get_object_or_404(Test, id=pk)
         serializer = TestUpdateSerializer(test, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -58,9 +58,12 @@ class TestSessionHistoryView(generics.ListAPIView):
     model = Testrun
     serializer_class = TestrunSerializer
 
-    def get_queryset(self):
-        return Testrun.objects.filter(
-            test__id=self.request.resolver_match.kwargs['pk']).order_by('-finished_at')
+    def get_queryset(self):        
+        return get_object_or_404(Testrun.objects.filter(
+            test__id=self.request.resolver_match.kwargs['pk']).order_by('-finished_at'))
+        
+        
+        
 
 
 class TestScoreView(generics.ListAPIView):
@@ -69,8 +72,8 @@ class TestScoreView(generics.ListAPIView):
     serializer_class = TestrunSerializer
 
     def get_queryset(self):
-        return Testrun.objects.filter(
-            user__id=self.request.user.id).order_by('-finished_at')
+        return get_object_or_404(Testrun.objects.filter(
+            user__id=self.request.user.id).order_by('-finished_at'))
 
 
 class TestTopListView(generics.ListAPIView):
@@ -82,8 +85,8 @@ class TestTopListView(generics.ListAPIView):
         return tests
 
     def get_most_popular_test(self, top: int) -> list[int]:
-        testruns = Testrun.objects.annotate(
-            total=Count('test')).order_by('total')[:top]
+        testruns = get_object_or_404(Testrun.objects.annotate(
+            total=Count('test')).order_by('total')[:top])
         tests = []
         for testrun in testruns:
             tests.append(testrun.test)
