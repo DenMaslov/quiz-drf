@@ -18,6 +18,7 @@ class OptionsSerializer(serializers.ModelSerializer):
 
 class QuestionSerializer(serializers.ModelSerializer):
     options = OptionsSerializer(many=True)
+    right_option = OptionsSerializer()
 
     class Meta:
         model = Question
@@ -45,7 +46,7 @@ class TestSerializer(serializers.ModelSerializer):
         questions = []
 
         for question in validated_data['questions']:
-            option = Option.objects.get(id=question['right_option'])
+            option = Option.objects.create(text=question['right_option'])
             text = question['text']
             options = self.get_options(question['options'])
             created_question = Question.objects.create(
