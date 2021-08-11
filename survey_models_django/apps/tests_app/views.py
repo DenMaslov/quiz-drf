@@ -4,6 +4,7 @@ from rest_framework import generics, permissions
 from rest_framework.response import Response
 from rest_framework.generics import get_object_or_404
 from django.db.models import Count
+from collections.abc import Iterable
 
 from django.db.models import Q
 from .forms import ModelForm
@@ -82,12 +83,14 @@ class TestTopListView(generics.ListAPIView):
         return tests
 
     def get_most_popular_test(self, top: int) -> list[int]:
-        testruns = get_object_or_404(Testrun.objects.annotate(
-            total=Count('test')).order_by('total')[:top])
+        testruns = Testrun.objects.annotate(
+            total=Count('test')).order_by('total')[:top]
         tests = []
-        for testrun in testruns:
-            tests.append(testrun.test)
-        return tests
+        if isinstance(testruns, Iterable):
+            for testrun in testruns:
+                tests.append(testrun.test)
+            return tests
+        return testruns.test
 
 
 class TestStatListView(generics.ListAPIView):
