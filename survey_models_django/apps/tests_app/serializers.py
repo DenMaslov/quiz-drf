@@ -39,7 +39,7 @@ class TestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Test
-        fields = ('id', 'title', 'title_uk', 'description',
+        fields = ('id', 'title',  'description',
                   'image_src', 'created_at', 'questions', )
 
     def create(self, validated_data):
@@ -145,5 +145,5 @@ class TestUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Test
-        fields = ('id', 'title', 'title_uk', 'description',
+        fields = ('id', 'title', 'description',
                   'image_src', 'created_at', 'questions', )
