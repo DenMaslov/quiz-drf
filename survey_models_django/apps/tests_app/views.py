@@ -5,7 +5,6 @@ from rest_framework.response import Response
 from rest_framework.generics import get_object_or_404
 from django.db.models import Count
 
-
 from django.db.models import Q
 from .forms import ModelForm
 from django.utils import timezone
@@ -54,16 +53,14 @@ class TestSessionView(generics.ListAPIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-class TestSessionHistoryView(generics.ListAPIView):
+class TestSessionHistoryView(generics.RetrieveAPIView):
     model = Testrun
     serializer_class = TestrunSerializer
 
-    def get_queryset(self):        
-        return get_object_or_404(Testrun.objects.filter(
-            test__id=self.request.resolver_match.kwargs['pk']).order_by('-finished_at'))
-        
-        
-        
+    def get(self, request, pk, format=None):
+        sessions = get_object_or_404(Testrun, test__id=pk)
+        serializer = TestrunSerializer(sessions)
+        return Response(serializer.data)
 
 
 class TestScoreView(generics.ListAPIView):
