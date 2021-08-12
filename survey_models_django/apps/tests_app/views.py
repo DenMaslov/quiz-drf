@@ -6,9 +6,11 @@ from rest_framework.generics import get_object_or_404
 from django.db.models import Count
 from collections.abc import Iterable
 
-from django.db.models import Q
-from .forms import ModelForm
-from django.utils import timezone
+from .filters import TestFilter
+from django_filters.rest_framework import DjangoFilterBackend
+
+from .permissions import StaffOnly
+
 from .models import Test, Testrun
 from .serializers import (TestrunSerializer, TestSerializer, TestMinSerializer,
                           TestUpdateSerializer,)
@@ -20,9 +22,26 @@ from rest_framework.response import Response
 log = logging.getLogger('app_info')
 
 
+class TestListView(generics.ListAPIView):
+
+    queryset = Test.objects.all()
+
+    model = Test
+    serializer_class = TestSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = TestFilter
+
+    def post(self, request):
+        serializer = TestSerializer()
+        instance = serializer.create(request.data)
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
 class TestDetailView(generics.RetrieveAPIView):
     model = Test
     serializer_class = TestSerializer
+    permission_classes = [StaffOnly]
 
     def get_object(self, queryset=None, **kwargs):
         id = self.kwargs.get('pk')
@@ -95,48 +114,3 @@ class TestStatListView(generics.ListAPIView):
     model = Test
     serializer_class = TestMinSerializer
     queryset = Test.objects.all()
-
-
-class TestListView(generics.ListAPIView):
-
-    OLD_DATE = "1970-01-01 12:00:00"
-    ORDER_FIELD = "created_at"
-
-    model = Test
-    serializer_class = TestSerializer
-
-    def post(self, request):
-        serializer = TestSerializer()
-        instance = serializer.create(request.data)
-        serializer = self.get_serializer(instance)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-    def get_context_data(self, **kwargs):
-        context = super(TestListView, self).get_context_data(**kwargs)
-        context['form'] = ModelForm()
-        return context
-
-    def get_queryset(self):
-        search = self.request.GET.get("search", None)
-        suffix_order = self.request.GET.get("order", "")
-        date_from, date_to = self.get_clean_time_ranges()
-
-        log.debug(
-            f'Return Tests search: {search}; ranges: {date_from}, {date_to}')
-        if search:
-            return Test.objects.filter(Q(title_en__icontains=search) | Q(title_uk__icontains=search),
-                                       created_at__range=[date_from, date_to]).order_by(
-                suffix_order + self.ORDER_FIELD)
-        return Test.objects.filter(
-            created_at__range=[date_from, date_to]).order_by(
-                suffix_order + self.ORDER_FIELD)
-
-    def get_clean_time_ranges(self):
-        """Returns date_from and date_to"""
-        date_from = self.request.GET.get("from_date", self.OLD_DATE)
-        date_to = self.request.GET.get("to_date", timezone.now())
-        if date_to == "":
-            date_to = timezone.now()
-        if date_from == "":
-            date_from = self.OLD_DATE
-        return date_from, date_to

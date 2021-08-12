@@ -18,6 +18,7 @@ markdown = "*"
 django-filter = "*"
 django-rest-swagger = "*"
 drf-yasg = "*"
+djangorestframework-simplejwt = "*"
 
 [requires]
 python_version = "3.9"

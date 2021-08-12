@@ -128,7 +128,7 @@ class TestMinSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Test
-        fields = ('id', 'number_of_sessions', 'title', 'title_uk',
+        fields = ('id', 'number_of_sessions', 'title',
                   'description', 'image_src', 'created_at', 'questions', )
 
     def get_number_of_sessions(self, obj):
