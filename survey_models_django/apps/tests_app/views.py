@@ -54,14 +54,12 @@ class TestSessionView(generics.ListAPIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-class TestSessionHistoryView(generics.RetrieveAPIView):
+class TestSessionHistoryView(generics.ListAPIView):
     model = Testrun
     serializer_class = TestrunSerializer
 
-    def get(self, request, pk, format=None):
-        sessions = get_object_or_404(Testrun, test__id=pk)
-        serializer = TestrunSerializer(sessions)
-        return Response(serializer.data)
+    def get_queryset(self):
+        return Testrun.objects.filter(test=self.kwargs['pk'])
 
 
 class TestScoreView(generics.ListAPIView):
