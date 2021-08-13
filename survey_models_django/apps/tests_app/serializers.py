@@ -35,10 +35,12 @@ class TestSerializer(serializers.ModelSerializer):
         read_only=True, default=timezone.now)
     id = serializers.IntegerField(read_only=True)
 
+
     class Meta:
         model = Test
         fields = ('id', 'title',  'description',
                   'image_src', 'created_at', 'questions', )
+    
 
     def create(self, validated_data):
         questions = []
@@ -144,3 +146,8 @@ class TestUpdateSerializer(serializers.ModelSerializer):
         model = Test
         fields = ('id', 'title', 'description',
                   'image_src', 'created_at', 'questions', )
+    
+    def validate_title(self, value):
+        if any(char.isdigit() for char in value):
+            raise serializers.ValidationError("title contains numbers")
+        return value
