@@ -5,7 +5,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = os.getenv('SECRET_KEY', '777')
 
 DEBUG = True
 
@@ -24,7 +24,6 @@ INSTALLED_APPS = [
 
     #local
     'apps.tests_app',
-    'apps.users',
 
     #3rd
     'rest_framework',

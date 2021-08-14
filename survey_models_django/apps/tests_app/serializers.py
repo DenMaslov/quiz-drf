@@ -32,15 +32,13 @@ class AnswersSerializer(serializers.ModelSerializer):
 class TestSerializer(serializers.ModelSerializer):
     questions = QuestionSerializer(many=True)
     created_at = serializers.DateTimeField(
-        read_only=True, default=timezone.now)
+        format="iso-8601", read_only=True, default=timezone.now)
     id = serializers.IntegerField(read_only=True)
-
 
     class Meta:
         model = Test
         fields = ('id', 'title',  'description',
                   'image_src', 'created_at', 'questions', )
-    
 
     def create(self, validated_data):
         questions = []
@@ -77,7 +75,7 @@ class TestrunSerializer(serializers.ModelSerializer):
     answers = AnswersSerializer(many=True)
 
     finished_at = serializers.DateTimeField(
-        read_only=True, default=timezone.now)
+        format="iso-8601", read_only=True, default=timezone.now)
     points = serializers.IntegerField(read_only=True, default=0)
     is_completed = serializers.BooleanField(read_only=True, default=False)
 
@@ -124,7 +122,7 @@ class TestrunSerializer(serializers.ModelSerializer):
 
 class TestMinSerializer(serializers.ModelSerializer):
     created_at = serializers.DateTimeField(
-        read_only=True, default=timezone.now)
+        format="iso-8601", read_only=True, default=timezone.now)
     id = serializers.IntegerField(read_only=True)
     number_of_sessions = serializers.SerializerMethodField()
 
@@ -136,17 +134,18 @@ class TestMinSerializer(serializers.ModelSerializer):
     def get_number_of_sessions(self, obj):
         return len(Testrun.objects.filter(test=obj))
 
+
 class TestUpdateSerializer(serializers.ModelSerializer):
     questions = QuestionSerializer(many=True, read_only=True)
     created_at = serializers.DateTimeField(
-        read_only=True, default=timezone.now)
+        format="iso-8601", read_only=True, default=timezone.now)
     id = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Test
         fields = ('id', 'title', 'description',
                   'image_src', 'created_at', 'questions', )
-    
+
     def validate_title(self, value):
         if any(char.isdigit() for char in value):
             raise serializers.ValidationError("title contains numbers")

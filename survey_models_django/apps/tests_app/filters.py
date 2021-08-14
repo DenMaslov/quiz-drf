@@ -1,4 +1,3 @@
-from django.contrib.auth import models
 from django_filters import rest_framework as filters
 from .models import Test
 

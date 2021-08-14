@@ -3,6 +3,7 @@ import logging
 from rest_framework import generics, permissions
 from rest_framework.response import Response
 from rest_framework.generics import get_object_or_404
+from rest_framework import filters
 from django.db.models import Count
 from collections.abc import Iterable
 
@@ -28,8 +29,10 @@ class TestListView(generics.ListAPIView):
 
     model = Test
     serializer_class = TestSerializer
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [filters.OrderingFilter, DjangoFilterBackend]
     filterset_class = TestFilter
+    ordering_fields = ['created_at', 'title']
+    
 
     def post(self, request):
         serializer = TestSerializer()
