@@ -5,7 +5,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = os.getenv('SECRET_KEY', '777')
 
 DEBUG = True
 
@@ -142,67 +142,3 @@ STATICFILES_FINDERS = [
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-#LOGGING
-LOGGING_DIR = os.path.join(BASE_DIR, 'logs')
-if not os.path.exists(LOGGING_DIR):
-    os.mkdir(LOGGING_DIR)
-    
-LOGGING = {
-'version': 1,
-'disable_existing_loggers': True,
-'formatters': {
-    'standard': {
-        'format': '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
-    },
-},
-'handlers': {
-    'file': {
-            'level': 'INFO',
-            'class':'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(LOGGING_DIR,  'request_log.log'),
-            'maxBytes': 1024*1024*5,
-            'backupCount': 100,
-            'formatter':'standard',
-        },
-    'auth_file': {
-            'level': 'DEBUG',
-            'class':'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(LOGGING_DIR,  'auth_log.log'),
-            'maxBytes': 1024*1024*5,
-            'backupCount': 100,
-            'formatter':'standard',
-        },
-    'app_handler': {
-            'level': 'DEBUG',
-            'class':'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(LOGGING_DIR,  'apps_log.log'),
-            'maxBytes': 1024*1024*5,
-            'backupCount': 100,
-            'formatter':'standard',
-        },
-},
-'loggers': {
-    'django': {
-            'handlers': ['file'],
-            'level': 'DEBUG',
-            'propagate': True,
-    },
-    'app_info': {
-            'handlers': ['app_handler'],
-            'level': 'DEBUG',
-            'propagate': True,
-    },
-    'auth_info': {
-            'handlers': ['auth_file'],
-            'level': 'DEBUG',
-            'propagate': True,
-    },
-    'django.request': { 
-        'handlers': ['file'],
-        'level': 'DEBUG',
-        'propagate': False
-    },
-}
-}

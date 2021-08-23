@@ -1,11 +1,9 @@
-import logging
-
 from rest_framework import generics, permissions
 from rest_framework.response import Response
+from rest_framework import status
 from rest_framework.generics import get_object_or_404
 from rest_framework import filters
 from django.db.models import Count
-from collections.abc import Iterable
 
 from .filters import TestFilter
 from django_filters.rest_framework import DjangoFilterBackend
@@ -15,12 +13,6 @@ from .permissions import StaffOnly
 from .models import Test, Testrun
 from .serializers import (TestrunSerializer, TestSerializer, TestMinSerializer,
                           TestUpdateSerializer,)
-
-from rest_framework import status
-from rest_framework.response import Response
-
-
-log = logging.getLogger('app_info')
 
 
 class TestListView(generics.ListAPIView):
@@ -32,7 +24,6 @@ class TestListView(generics.ListAPIView):
     filter_backends = [filters.OrderingFilter, DjangoFilterBackend]
     filterset_class = TestFilter
     ordering_fields = ['created_at', 'title']
-    
 
     def post(self, request):
         serializer = TestSerializer()
@@ -42,7 +33,6 @@ class TestListView(generics.ListAPIView):
 
 
 class TestDetailView(generics.RetrieveAPIView):
-    model = Test
     serializer_class = TestSerializer
     permission_classes = [StaffOnly]
 
@@ -57,6 +47,16 @@ class TestDetailView(generics.RetrieveAPIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, pk):
+        testmodel_object = get_object_or_404(Test, id=pk)
+        # set partial=True to update a data partially
+        serializer = TestUpdateSerializer(
+            testmodel_object, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(data=serializer.data)
+        return Response(code=400, data="wrong parameters")
 
     def delete(self, request, pk, format=None):
         test = Test.objects.get(id=pk)
@@ -97,20 +97,11 @@ class TestScoreView(generics.ListAPIView):
 class TestTopListView(generics.ListAPIView):
     model = Test
     serializer_class = TestMinSerializer
+    TOP_AMOUNT = 3
 
     def get_queryset(self):
-        tests = self.get_most_popular_test(3)
-        return tests
-
-    def get_most_popular_test(self, top: int) -> list[int]:
-        testruns = Testrun.objects.annotate(
-            total=Count('test')).order_by('total')[:top]
-        tests = []
-        if isinstance(testruns, Iterable):
-            for testrun in testruns:
-                tests.append(testrun.test)
-            return tests
-        return testruns.test
+        return Test.objects.annotate(
+            total=Count('testrun')).order_by('-total')[:self.TOP_AMOUNT]
 
 
 class TestStatListView(generics.ListAPIView):

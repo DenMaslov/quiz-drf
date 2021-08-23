@@ -3,7 +3,7 @@ from .models import Test
 
 
 class TestFilter(filters.FilterSet):
-    
+
     class Meta:
         model = Test
         fields = {

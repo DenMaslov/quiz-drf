@@ -17,5 +17,5 @@ urlpatterns = [
     path('history/<int:pk>/', TestSessionHistoryView.as_view(), name='history'),
     path('top/', TestTopListView.as_view(), name='top_list'),
     path('stat/', TestStatListView.as_view(), name='stat_list'),
-    
+
 ]

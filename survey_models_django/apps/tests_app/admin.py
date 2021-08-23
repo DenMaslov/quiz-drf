@@ -4,7 +4,7 @@ from .models import Option, Question, Test, Testrun, Answer
 
 class AnswerAdmin(admin.ModelAdmin):
     model = Answer
-    list_display = ['question', 'user_answer',]
+    list_display = ['question', 'user_answer', ]
 
 
 class QuestionAdmin(admin.ModelAdmin):
@@ -19,7 +19,8 @@ class TestAdmin(admin.ModelAdmin):
 
 class TestrunAdmin(admin.ModelAdmin):
     model = Testrun
-    list_display = ['id', 'test', 'points','finished_at', 'is_completed', 'user']
+    list_display = ['id', 'test', 'points',
+                    'finished_at', 'is_completed', 'user']
 
 
 admin.site.register(Option)

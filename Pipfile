@@ -19,6 +19,7 @@ django-filter = "*"
 django-rest-swagger = "*"
 drf-yasg = "*"
 djangorestframework-simplejwt = "*"
+pylint = "*"
 
 [requires]
 python_version = "3.9"
